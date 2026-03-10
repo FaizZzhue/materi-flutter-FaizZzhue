@@ -12,33 +12,42 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-
-  void _loadFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool favorite = prefs.getBool('favorite_${widget.movie.id}') ?? false;
-    setState(() {
-      widget.movie.isFavorite = favorite;
-    });
-  }
-
-  Future<void> _toggleFavorite() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool favoriteStatus = !widget.movie.isFavorite;
-    await prefs.setBool('favorite_${widget.movie.id}', favoriteStatus);
-    if (favoriteStatus) {
-      await prefs.setString('movie_${widget.movie.id}', json.encode(widget.movie.toJson()));
-    } else {
-      await prefs.remove('movie_${widget.movie.id}');
-    }
-    setState(() {
-      widget.movie.isFavorite = favoriteStatus;
-    });
-  }
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
-    _loadFavoriteStatus();
+    loadFavoriteStatus();
+  }
+
+  Future<void> loadFavoriteStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> favList = prefs.getStringList('favorites') ?? [];
+    setState(() {
+      isFavorite = favList.any((item) {
+        final decoded = Movie.fromJson(jsonDecode(item));
+        return decoded.id == widget.movie.id;
+      });
+    });
+  }
+
+  Future<void> toggleFavorite() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> favList = prefs.getStringList('favorites') ?? [];
+
+    if (isFavorite) {
+      favList.removeWhere((item) {
+        final decoded = Movie.fromJson(jsonDecode(item));
+        return decoded.id == widget.movie.id;
+      });
+    } else {
+      favList.add(jsonEncode(widget.movie.toJson()));
+    }
+
+    await prefs.setStringList('favorites', favList);
+    setState(() {
+      isFavorite = !isFavorite;
+    });
   }
 
   @override
@@ -49,14 +58,14 @@ class _DetailScreenState extends State<DetailScreen> {
         actions: [
           IconButton(
             icon: Icon(
-              widget.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: widget.movie.isFavorite ? Colors.red : null,
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: isFavorite ? Colors.red : null,
             ),
-            onPressed: _toggleFavorite,
+            onPressed: toggleFavorite,
           ),
         ],
       ),
-      // body sama persis seperti aslinya
+      // body sama persis seperti punya dosen
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
