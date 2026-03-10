@@ -65,7 +65,6 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
         ],
       ),
-      // body sama persis seperti punya dosen
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
