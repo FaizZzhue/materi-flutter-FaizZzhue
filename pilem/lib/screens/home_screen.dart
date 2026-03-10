@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ApiServices _apiServices = ApiServices();
+  final ApiService _apiService = ApiService();
 
   List<Movie> _allMovies = [];
   List<Movie> _trendingMovies = [];
@@ -19,11 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadMovies() async {
     final List<Map<String, dynamic>> allMoviesData =
-        await _apiServices.getAllMovies();
+        await _apiService.getAllMovies();
     final List<Map<String, dynamic>> trendingMoviesData =
-        await _apiServices.getTrendingMovies();
+        await _apiService.getTrendingMovies();
     final List<Map<String, dynamic>> popularMoviesData =
-        await _apiServices.getPopularMovies();
+        await _apiService.getPopularMovies();
 
     setState(() {
       _allMovies = allMoviesData.map((json) => Movie.fromJson(json)).toList();
