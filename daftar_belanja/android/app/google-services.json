@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000510335944",
+    "project_id": "daftar-belanja-dc3cf",
+    "storage_bucket": "daftar-belanja-dc3cf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000510335944:android:223b974f3cdc5015c76efd",
+        "android_client_info": {
+          "package_name": "com.example.daftar_belanja"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy8nEVterP5Q2k2NCLxlhFKlmAhcNftxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
