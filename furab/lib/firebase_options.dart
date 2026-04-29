@@ -66,4 +66,5 @@ class DefaultFirebaseOptions {
     projectId: 'furab-app',
     storageBucket: 'furab-app.firebasestorage.app',
   );
+
 }
